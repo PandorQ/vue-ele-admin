@@ -1,16 +1,15 @@
 <template>
   <div id="app">
-    <el-button>按钮</el-button>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'app'
-}
+  name: "app",
+
+};
 </script>
 
 <style>
-
 </style>
