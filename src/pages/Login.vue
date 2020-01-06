@@ -14,14 +14,18 @@
           </div>
           <div class="form-content">
             <div>
-              <el-input class="content-input" placeholder="请输入手机号码/邮箱"
-                v-model="account"></el-input>
-              <el-input class="content-input" placeholder="请输入密码"
-                v-model="password"></el-input>
+              <ValidationProvider rules="phoneOrEmailValid" v-slot="v">
+                <el-input class="content-input" placeholder="请输入手机号码/邮箱" 
+                  v-model="account"></el-input>
+                <span class="errMsg">{{v.errors[0]}}</span>
+              </ValidationProvider>
+              <ValidationProvider rules="passwordValid" v-slot="v">
+                <el-input class="content-input" placeholder="请输入密码" v-model="password"></el-input>
+                <span class="errMsg">{{v.errors[0]}}</span>
+              </ValidationProvider>
               <el-row class="content-footer" type="flex" justify="space-between">
                 <el-col>
-                  <el-checkbox class="content-checkbox" label="7天内自动登录" 
-                    v-model="rememberMe"/>
+                  <el-checkbox class="content-checkbox" label="7天内自动登录" v-model="rememberMe" />
                 </el-col>
                 <el-col class="helper">
                   <a href="#">找回密码</a>|
@@ -80,9 +84,9 @@ export default {
   name: "Login",
   data() {
     return {
-      account:'',
-      password:'',
-      rememberMe:false,
+      account: "",
+      password: "",
+      rememberMe: false
     };
   }
 };
@@ -140,7 +144,7 @@ export default {
     .form-content {
       margin-top: 10px;
       .content-input {
-        margin-top: 25px;
+        margin-top: 35px;
         font-size: 16px;
       }
       .content-checkbox {
