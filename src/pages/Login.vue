@@ -10,18 +10,24 @@
         <div class="login-form">
           <div class="form-title">
             <h3 class="underLine">登录</h3>
-            <!-- <h3>注册</h3> -->
           </div>
           <div class="form-content">
             <div>
               <ValidationProvider rules="phoneOrEmailValid" v-slot="v">
-                <el-input class="content-input" placeholder="请输入手机号码/邮箱" 
-                  v-model="account"></el-input>
-                <span class="errMsg">{{v.errors[0]}}</span>
+                <el-row>
+                  <el-input class="content-input" placeholder="请输入手机号码/邮箱" v-model="account"></el-input>
+                </el-row>
+                <el-row class="message-row">
+                  <span class="errMsg">{{v.errors[0]}}</span>
+                </el-row>
               </ValidationProvider>
               <ValidationProvider rules="passwordValid" v-slot="v">
-                <el-input class="content-input" placeholder="请输入密码" v-model="password"></el-input>
-                <span class="errMsg">{{v.errors[0]}}</span>
+                <el-row>
+                  <el-input class="content-input" placeholder="请输入密码" v-model="password"></el-input>
+                </el-row>
+                <el-row class="message-row">
+                  <span class="errMsg">{{v.errors[0]}}</span>
+                </el-row>
               </ValidationProvider>
               <el-row class="content-footer" type="flex" justify="space-between">
                 <el-col>
@@ -33,7 +39,8 @@
                 </el-col>
               </el-row>
               <el-row>
-                <el-button class="content-button" type="primary" round>登录</el-button>
+                <el-button class="content-button" type="primary" round 
+                  @click="loginHandler">登录</el-button>
               </el-row>
               <div class="login-footer">
                 <el-row type="flex">
@@ -49,26 +56,6 @@
                 </el-row>
               </div>
             </div>
-            <!-- <div>
-              <div>
-                <el-input class="content-input" placeholder="请输入注册手机号码"></el-input>
-                <el-input class="content-input" placeholder="请输入验证码"></el-input>
-                <el-row class="content-footer" type="flex" justify="space-between">
-                  <el-col>
-                    <el-checkbox class="content-checkbox" label="同意" />
-                  </el-col>
-                  <el-col class="helper">
-                    <a href="#">《慕课网注册协议》</a>
-                    <sapn>&amp;</sapn>
-                    <a href="#">《隐私政策》</a>
-                  </el-col>
-                </el-row>
-                <el-row>
-                  <el-button class="content-button" type="primary" round>登录</el-button>
-                </el-row>
-                <div class="login-footer"></div>
-              </div>
-            </div>-->
           </div>
         </div>
       </div>
@@ -80,14 +67,27 @@
 </template>
 
 <script>
+import api from '../api/index.js'
+
 export default {
   name: "Login",
   data() {
     return {
       account: "",
       password: "",
-      rememberMe: false
+      rememberMe: false,
+      res:'',
     };
+  },
+  methods:{
+    loginHandler(){
+      this.$axios.post(api.LOGIN,{
+        account:this.account,
+        password:this.password
+      }).then((res) => {
+          this.res = res
+      })
+    }
   }
 };
 </script>
@@ -142,16 +142,23 @@ export default {
     }
 
     .form-content {
-      margin-top: 10px;
+      margin-top: 30px;
       .content-input {
-        margin-top: 35px;
         font-size: 16px;
+      }
+      .message-row{
+        height: 30px;
+        line-height: 30px;
+        .errMsg{
+          color:#f20d0d;
+          font-size: 12px;
+        }
       }
       .content-checkbox {
         color: @ColorC;
       }
       .content-footer {
-        margin-top: 20px;
+        margin-top: 10px;
         .helper {
           color: @ColorE;
           a {

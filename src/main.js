@@ -3,6 +3,8 @@ import router from './router/index'
 import App from './App.vue'
 import RequestAxios from './utils/RequestAxios'
 
+import './mock/index.js'
+
 import './valid/index.js'
 import {
   ValidationProvider
