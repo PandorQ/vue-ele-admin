@@ -1,5 +1,8 @@
 <template>
-  <el-container>
+  <el-container 
+    v-loading.fullscreen.lock="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading">
     <el-header class="login-header">
       <div class="login-container">
         <a href="www.imooc.com" target="_blank" />
@@ -39,8 +42,7 @@
                 </el-col>
               </el-row>
               <el-row>
-                <el-button class="content-button" type="primary" round 
-                  @click="loginHandler">登录</el-button>
+                <el-button class="content-button" type="primary" round @click="loginHandler">登录</el-button>
               </el-row>
               <div class="login-footer">
                 <el-row type="flex">
@@ -67,7 +69,7 @@
 </template>
 
 <script>
-import api from '../api/index.js'
+import api from "../api/index.js";
 
 export default {
   name: "Login",
@@ -76,17 +78,37 @@ export default {
       account: "",
       password: "",
       rememberMe: false,
-      res:'',
+      loading: false
     };
   },
-  methods:{
-    loginHandler(){
-      this.$axios.post(api.LOGIN,{
-        account:this.account,
-        password:this.password
-      }).then((res) => {
-          this.res = res
-      })
+  methods: {
+    loginHandler() {
+      this.loading = true;
+      this.$axios
+        .post(api.IMOOC_API.LOGIN, {
+          account: this.account,
+          password: this.password
+        })
+        .then((res) => {
+          if(res){
+            this.loading=false
+          }
+          if(res.code == 0){
+              this.$message({
+                showClose:true,
+                message:res.message,
+                type:'success',
+                duration:3000
+              })
+          }else{
+            this.$message({
+                showClose:true,
+                message:res.message,
+                type:'error',
+                duration:3000
+              })
+          }
+        });
     }
   }
 };
@@ -146,11 +168,11 @@ export default {
       .content-input {
         font-size: 16px;
       }
-      .message-row{
+      .message-row {
         height: 30px;
         line-height: 30px;
-        .errMsg{
-          color:#f20d0d;
+        .errMsg {
+          color: #f20d0d;
           font-size: 12px;
         }
       }

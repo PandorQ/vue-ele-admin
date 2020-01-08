@@ -1,7 +1,8 @@
 import Axios from 'axios'
+import api from '../api/index'
 
 const instance = Axios.create({
-  baseURL: 'http://localhost:8080/back/api',
+  baseURL: api.httpProfix,
   timeout: 5000
 })
 
@@ -17,7 +18,7 @@ instance.interceptors.request.use(config => {
 // 响应拦截器
 instance.interceptors.response.use(response => {
   // 请求成功，对响应数据进行处理
-  return response.date;
+  return response.data;
 }, error => {
   // 服务器响应错误
   return Promise.reject(error);
