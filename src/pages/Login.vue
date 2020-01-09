@@ -26,7 +26,7 @@
               </ValidationProvider>
               <ValidationProvider rules="passwordValid" v-slot="v">
                 <el-row>
-                  <el-input class="content-input" placeholder="请输入密码" v-model="password"></el-input>
+                  <el-input class="content-input" placeholder="请输入密码" v-model="password" show-password></el-input>
                 </el-row>
                 <el-row class="message-row">
                   <span class="errMsg">{{v.errors[0]}}</span>
@@ -69,19 +69,27 @@
 </template>
 
 <script>
-import api from "../api/index.js";
-
+import api from "../api/index.js"
+import { mapState,mapMutations } from 'vuex'
 export default {
   name: "Login",
   data() {
     return {
-      account: "",
-      password: "",
+      account: "admin123@qq.com",
+      password: "1234qwer",
       rememberMe: false,
       loading: false
     };
   },
+  computed:{
+     ...mapState([
+       'token'
+     ]),
+  },
   methods: {
+    ...mapMutations([
+      'setToken'
+    ]),
     loginHandler() {
       this.loading = true;
       this.$axios
@@ -94,12 +102,17 @@ export default {
             this.loading=false
           }
           if(res.code == 0){
+              let data = res.data;
+              window.console.log(data);
+              // this.$store.dispatch('setToken',data.user.token)
+              this.setToken(data.user.token)
               this.$message({
                 showClose:true,
                 message:res.message,
                 type:'success',
                 duration:3000
               })
+              window.console.log(this.$store.state.token)
           }else{
             this.$message({
                 showClose:true,

@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import router from './router/index'
+import router from './router'
 import App from './App.vue'
 import RequestAxios from './utils/RequestAxios'
 
-import './mock/index.js'
+import './mock'
 
-import './valid/index.js'
+import './valid'
 import {
   ValidationProvider
 } from 'vee-validate'
@@ -23,8 +23,11 @@ import './assets/icons/iconfont.css'
 
 /** element-ui css样式还是需要全部引入 */
 import 'element-ui/lib/theme-chalk/index.css'
+
 /**element-ui 部分导入 */
 import element from './element/index'
+/**vuex 引入 */
+import store from './store'
 Vue.use(element)
 
 
@@ -35,5 +38,6 @@ Vue.config.productionTip = true
 
 new Vue({
   router,
-  render: h => h(App),
+  store,
+  render: h => h(App)
 }).$mount('#app')
