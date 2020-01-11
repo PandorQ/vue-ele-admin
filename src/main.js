@@ -10,11 +10,6 @@ import {
   ValidationProvider
 } from 'vee-validate'
 
-Vue.component('ValidationProvider', ValidationProvider)
-
-
-
-
 /**全局样式 */
 import './assets/css/global.less'
 
@@ -26,13 +21,22 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 /**element-ui 部分导入 */
 import element from './element/index'
+
 /**vuex 引入 */
 import store from './store'
+
+/** localStore */
+import LocalStore from './storage'
+
+
+Vue.component('ValidationProvider', ValidationProvider)
+
 Vue.use(element)
 
 
 
 Vue.prototype.$axios = RequestAxios
+Vue.prototype.$LocalStore = LocalStore
 
 Vue.config.productionTip = true
 

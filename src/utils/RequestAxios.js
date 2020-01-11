@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import api from '../api/index'
+import LocalStore from '../storage'
 
 const instance = Axios.create({
   baseURL: api.httpProfix,
@@ -9,6 +10,8 @@ const instance = Axios.create({
 // 请求拦截器
 instance.interceptors.request.use(config => {
   // 在发送请求前，拦截请求进行操作
+  let token = LocalStore.getToken()
+  config.headers.Authorization = token
   return config;
 }, error => {
   // 在请求错误时，需要回调的操作函数

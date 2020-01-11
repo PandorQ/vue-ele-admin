@@ -12,7 +12,7 @@
       <div class="login-container">
         <div class="login-form">
           <div class="form-title">
-            <h3 class="underLine">登录</h3>
+            <h3 class="underLine">慕课管理</h3>
           </div>
           <div class="form-content">
             <div>
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import api from "../api/index.js"
+import api from "../api"
 import { mapState,mapMutations } from 'vuex'
 export default {
   name: "Login",
@@ -103,16 +103,13 @@ export default {
           }
           if(res.code == 0){
               let data = res.data;
-              window.console.log(data);
-              // this.$store.dispatch('setToken',data.user.token)
-              this.setToken(data.user.token)
+              this.$LocalStore.setToken(data.token)              
               this.$message({
                 showClose:true,
                 message:res.message,
                 type:'success',
                 duration:3000
               })
-              window.console.log(this.$store.state.token)
           }else{
             this.$message({
                 showClose:true,
@@ -185,7 +182,7 @@ export default {
         height: 30px;
         line-height: 30px;
         .errMsg {
-          color: #f20d0d;
+          color: @ColorB;
           font-size: 12px;
         }
       }
@@ -225,7 +222,7 @@ export default {
           display: inline-block;
           font-size: 20px;
           margin-left: 20px;
-          color: red;
+          color: @ColorB;
           text-decoration: none;
         }
       }
